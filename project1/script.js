@@ -28,6 +28,13 @@ function showSuccess(input) {
 }
 
 
+// Function to check if EMAIL is valid
+function isValidEmail(emailKiValue){
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(emailKiValue).toLowerCase());
+}
+
+
 // Event Listener hog form ke submit button kelia to hum Event Listener iske parent ko lagaye ge
 
 // EVENT LISTENERS (last me ate he)
@@ -57,6 +64,9 @@ form.addEventListener('submit', function(e) {
     if (email.value === '') {
         showError(email, 'Email is required')
     }
+    else if (!isValidEmail(email.value)) {
+        showError(email, 'Email is invalid')
+    }
     else {
         showSuccess(email);
     }
@@ -66,7 +76,7 @@ form.addEventListener('submit', function(e) {
         showError(password, 'Password is required');
     }
     else {
-        showSuccess(password)
+        showSuccess(password);
     }
 
     // check if confirm password is empty
