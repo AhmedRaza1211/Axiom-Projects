@@ -29,66 +29,67 @@ function showSuccess(input) {
 
 
 // Function to check if EMAIL is valid
-function isValidEmail(emailKiValue){
+function checkEmail(input){
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(emailKiValue).toLowerCase());
+    if (re.test(input.value.trim() )){
+        showSuccess(input);
+    } else {
+        showError(input, `Please provide a valid email`)
+    }
 }
 
 
-// Event Listener hog form ke submit button kelia to hum Event Listener iske parent ko lagaye ge
+// Function to check if required fields have data
+function checkRequired(inputArray) {
+    inputArray.forEach(function (input) {
+        // console.log(input.value);
+        if (input.value === '') {
+            // showError(input, input.id + ' is Required') 
+            // OR
+            // ES6 Features
 
-// EVENT LISTENERS (last me ate he)
-// Create Event Listener for SUBMIT BUTTON
+            // showError(input, `${input.id} is required`); // is se magar lower case me araha he to hum getFieldId 
+            // function banate he
 
+            showError(input, `${getFieldId(input)} is required`);
+
+
+        } else {
+            showSuccess(input);
+        }
+    });
+}
+
+// Function to check length of input field
+function checkLength(input, min, max) {
+    if (input.value.length < min) {
+        showError(input, `${getFieldId(input)} needs to be at least ${min} characters`);
+    } else if (input.value.length > max) {
+        showError(input, `${getFieldId(input)} needs to be less than ${max} characters`);
+    } else {
+        showSuccess(input);
+    }
+}
+
+// Function to check if password and confirm password matched
+function checkPasswordsMatch(input1, input2) {
+    if (input1.value !== input2.value) {
+        showError(password2, `Passwords don't match`);
+    }
+}
+
+// Function to get the id of the input field with proper case
+function getFieldId(input) {
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
+// This is an Event Listener for the form on Submit
 form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-    // Stop page from reloading on submit
-    e.preventDefault();         
-
-    // console.log('Submitted');                // No. 1 practice
-
-    // e.preventDefault();
-    // console.log(username.value);             // ager USERNAME sirf hoga to wo html dikhae ga username ki
-
-
-    // Check to see if fields meet required fields requirments
-    // Check if username input is empty
-    if (username.value === '') {
-        showError(username, 'Username is required');
-    }
-    else {
-        showSuccess(username);
-    }
-
-    // Check if email input is empty
-    if (email.value === '') {
-        showError(email, 'Email is required')
-    }
-    else if (!isValidEmail(email.value)) {
-        showError(email, 'Email is invalid')
-    }
-    else {
-        showSuccess(email);
-    }
-
-    // check if password input is empty
-    if (password.value === '') {
-        showError(password, 'Password is required');
-    }
-    else {
-        showSuccess(password);
-    }
-
-    // check if confirm password is empty
-    if (password2.value === '') {
-        showError(password2, 'Password is required');
-    }
-    else {
-        showSuccess(password2);
-    }
-
-
-
-
-
-}); 
+    checkRequired([username, email, password, password2]);
+    checkLength(username, 3, 10);
+    checkLength(password, 6, 30);
+    checkEmail(email);
+    checkPasswordsMatch(password, password2);
+})
