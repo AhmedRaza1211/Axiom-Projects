@@ -92,4 +92,4 @@ form.addEventListener('submit', function(e) {
     checkLength(password, 6, 30);
     checkEmail(email);
     checkPasswordsMatch(password, password2);
-})
+});
