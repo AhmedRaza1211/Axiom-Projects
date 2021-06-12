@@ -19,7 +19,7 @@ const swap = document.getElementById('swap');
 
 // Fetch Exchange Rates and update the DOM
 function calculate() {
-    // console.log('success');
+    console.log('success');
     // Get the Currency code for currency 1 and 2
     const currencyOneCode = currencyOne.value;
     const currencyTwoCode = currencyTwo.value;
